@@ -27,7 +27,6 @@ public class App {
                 .filter(name->name.startsWith("A"))
                 .map(String::toUpperCase)
                 .forEach(greeter::greet);
-
     }
 }
 
