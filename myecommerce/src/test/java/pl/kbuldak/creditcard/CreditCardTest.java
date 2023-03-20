@@ -51,8 +51,6 @@ public class CreditCardTest {
         } catch (CreditLimitBelowThresholdException e){
             assertTrue(true);
         }
-
-
         assertThrows(CreditLimitBelowThresholdException.class,
                 () -> card.assignCredit(BigDecimal.valueOf(10)));
         assertThrows(CreditLimitBelowThresholdException.class,
@@ -60,4 +58,40 @@ public class CreditCardTest {
         assertDoesNotThrow(
                 () -> card.assignCredit(BigDecimal.valueOf(100)));
     }
-}
+
+    @Test
+    void canNotAssignLimitTwice(){
+        CreditCard card = new CreditCard("1234-5678");
+
+        card.assignCredit(BigDecimal.valueOf(1000));
+
+        assertThrows(
+                CantAssignCreditTwiceException.class,
+                () -> card.assignCredit(BigDecimal.valueOf(1100))
+        );
+        }
+
+    @Test
+    void canNotWithdrawOverTheLimit(){
+        CreditCard card = new CreditCard("1234-5678");
+
+        card.setLimit(BigDecimal.valueOf(1000));
+        card.setBalance(BigDecimal.valueOf(1200));
+        assertThrows(
+                CantWithdrawOverTheLimitException.class,
+                () -> card.withdraw(BigDecimal.valueOf(1100))
+        );
+    }
+    @Test
+    void canNotWithdrawWhenNotEnoughMoney(){
+        CreditCard card = new CreditCard("1234-5678");
+
+        card.assignCredit(BigDecimal.valueOf(1000));
+
+        assertThrows(
+                CantWithdrawWhenNotEnoughMoneyException.class,
+                () -> card.withdraw(BigDecimal.valueOf(1100))
+        );
+    }
+    }
+
