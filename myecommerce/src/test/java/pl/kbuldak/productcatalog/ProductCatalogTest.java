@@ -1,7 +1,10 @@
 package pl.kbuldak.productcatalog;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
+
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ProductCatalogTest {
@@ -32,8 +35,22 @@ public class ProductCatalogTest {
     }
 
     @Test
-    void itAllowsToChangePrice(){
+    void itAllowsToLoadProductDetails(){
+        ProductCatalog catalog = thereIsProductCatalog();
+        String productId = catalog.addProduct("lego 8298", "nice one");
 
+        Product loaded = catalog.loadById(productId);
+        assert productId.equals(loaded.getId());
+    }
+
+    @Test
+    void itAllowsToChangePrice(){
+        ProductCatalog catalog = thereIsProductCatalog();
+        String productId = catalog.addProduct("lego 8298", "nice one");
+
+        catalog.changePrice(productId, BigDecimal.valueOf(20.20));
+        Product loaded = catalog.loadById(productId);
+        assertEquals(BigDecimal.valueOf(20.20), loaded.getPrice());
     }
 
     @Test

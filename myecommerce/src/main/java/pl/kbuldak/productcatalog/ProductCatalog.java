@@ -1,18 +1,18 @@
 package pl.kbuldak.productcatalog;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ProductCatalog {
-    private ArrayList<Product> products;
+
+    //Biznes
+
+    //Tech
+
+    private Map<String, Product> products;
 
     public ProductCatalog(){
-        this.products = new ArrayList<>();
-    }
-
-    public List<Product> allProducts(){
-        return products;
+        this.products = new HashMap<>();
     }
 
     public String addProduct(String name, String desc) {
@@ -23,4 +23,21 @@ public class ProductCatalog {
         );
         return newOne.getId();
     }
+
+    public List<Product> allProducts(){
+        return products.values()
+                .stream()
+                .collect(Collectors.toList());
+    }
+
+    public List<Product> allPublishedProducts(){
+        return Collections.emptyList();
+    }
+
+    public Product loadById(String productId){
+        return products.get(productId);
+    }
+
+
+
 }
